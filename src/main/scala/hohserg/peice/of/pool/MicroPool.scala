@@ -6,15 +6,14 @@ class MicroPool[A: Closeable](_create: () => A) {
 
   private val closeable = implicitly[Closeable[A]]
 
-  private val freeValues = new mutable.HashSet[A]()
-  private val inUseValues = new mutable.HashSet[A]()
+  private val freeValues = new mutable.ArrayBuffer[A]()
+  private val inUseValues = new mutable.ArrayBuffer[A]()
 
   private var averageCount: Int = -1
 
   def create: A = {
     if (freeValues.nonEmpty) {
-      val r = freeValues.head
-      freeValues -= r
+      val r = freeValues.remove(0)
       inUseValues += r
       r
     } else {
