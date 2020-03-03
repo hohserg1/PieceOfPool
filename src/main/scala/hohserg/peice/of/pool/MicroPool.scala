@@ -9,8 +9,6 @@ class MicroPool[A: Reusable](_create: () => A) {
   private val freeValues = new mutable.ArrayBuffer[A]()
   private val inUseValues = new mutable.ArrayBuffer[A]()
 
-  private var averageCount: Int = -1
-
   def create: A = {
     if (freeValues.nonEmpty) {
       val r = freeValues.remove(0)
@@ -24,11 +22,6 @@ class MicroPool[A: Reusable](_create: () => A) {
   }
 
   def free(): Unit = {
-    if (averageCount == -1)
-      averageCount = inUseValues.size
-    else
-      averageCount = (averageCount + inUseValues.size) / 2
-
     inUseValues.foreach(closeable.restate)
     freeValues ++= inUseValues
     inUseValues.clear()
