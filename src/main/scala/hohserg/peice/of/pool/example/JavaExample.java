@@ -10,7 +10,13 @@ public class JavaExample {
 
     private static final String id = UUID.randomUUID().toString();
 
-    public void some() {
+    public static void main(String[] args) {
+        for (int i = 0; i < 10; i++)
+            some();
+
+    }
+
+    public static void some() {
         //get pool for ListBuffer[Int]
         MicroPool<ArrayList<Integer>> pool = MainPool.startPool(id, ArrayList::new, ArrayList::clear);
 

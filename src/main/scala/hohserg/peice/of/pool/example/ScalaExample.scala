@@ -2,12 +2,12 @@ package hohserg.peice.of.pool.example
 
 import java.util.UUID
 
-import hohserg.peice.of.pool.{Reusable, MainPool}
+import hohserg.peice.of.pool.{MainPool, Reusable}
 
 import scala.collection.generic.Clearable
 import scala.collection.mutable.ListBuffer
 
-object ScalaExample {
+object ScalaExample extends App {
 
   val id = UUID.randomUUID().toString
 
@@ -26,5 +26,8 @@ object ScalaExample {
     //clear all used lists and return to pool
     pool.free()
   }
+
+  for (i <- 0 until 10)
+    some()
 
 }
