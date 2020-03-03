@@ -2,7 +2,7 @@ package hohserg.peice.of.pool.example
 
 import java.util.UUID
 
-import hohserg.peice.of.pool.{Closeable, MainPool}
+import hohserg.peice.of.pool.{Reusable, MainPool}
 
 import scala.collection.generic.Clearable
 import scala.collection.mutable.ListBuffer
@@ -11,7 +11,7 @@ object Example {
 
   val id = UUID.randomUUID().toString
 
-  implicit val collectionCloseable: Closeable[Clearable] = (v: Clearable) => v.clear()
+  implicit val collectionCloseable: Reusable[Clearable] = (v: Clearable) => v.clear()
 
   def some(): Unit = {
     //get pool for ListBuffer[Int]

@@ -10,7 +10,7 @@ object MainPool {
 
   private val microPools = new mutable.HashMap[Id, MicroPool[_]]()
 
-  def startPool[A: Closeable](id: Id, create: () => A): MicroPool[A] =
+  def startPool[A: Reusable](id: Id, create: () => A): MicroPool[A] =
     microPools.getOrElseUpdate(id, new MicroPool[A](create)).asInstanceOf[MicroPool[A]]
 
 }

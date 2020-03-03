@@ -2,9 +2,9 @@ package hohserg.peice.of.pool
 
 import scala.collection.mutable
 
-class MicroPool[A: Closeable](_create: () => A) {
+class MicroPool[A: Reusable](_create: () => A) {
 
-  private val closeable = implicitly[Closeable[A]]
+  private val closeable = implicitly[Reusable[A]]
 
   private val freeValues = new mutable.ArrayBuffer[A]()
   private val inUseValues = new mutable.ArrayBuffer[A]()
@@ -29,7 +29,7 @@ class MicroPool[A: Closeable](_create: () => A) {
     else
       averageCount = (averageCount + inUseValues.size) / 2
 
-    inUseValues.foreach(closeable.close)
+    inUseValues.foreach(closeable.restate)
     freeValues ++= inUseValues
     inUseValues.clear()
   }
