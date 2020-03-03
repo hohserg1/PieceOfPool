@@ -5,7 +5,7 @@ trait Reusable[-A] {
 }
 
 object Reusable {
-  def forJavaInterface[A <: IReusable](v: A): Reusable[A] =
+  implicit def forJavaInterface[A <: IReusable]: Reusable[A] =
     (v: A) => v.restate()
 
 }
