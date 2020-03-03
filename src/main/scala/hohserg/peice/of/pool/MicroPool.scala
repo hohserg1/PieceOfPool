@@ -6,25 +6,26 @@ class MicroPool[A: Reusable](_create: () => A) {
 
   private val closeable = implicitly[Reusable[A]]
 
-  private val freeValues = new mutable.ArrayBuffer[A]()
-  private val inUseValues = new mutable.ArrayBuffer[A]()
+  private val values = new mutable.ArrayBuffer[A]()
+  private var firstFreeIndex = 0
 
   def create: A = {
-    if (freeValues.nonEmpty) {
-      val r = freeValues.remove(0)
-      inUseValues += r
+    if (firstFreeIndex < values.size) {
+      val r = values(firstFreeIndex)
+      firstFreeIndex += 1
       r
     } else {
       val r = _create()
-      inUseValues += r
+      values += r
+      firstFreeIndex += 1
       r
     }
   }
 
   def free(): Unit = {
-    inUseValues.foreach(closeable.restate)
-    freeValues ++= inUseValues
-    inUseValues.clear()
+    for (i <- 0 until firstFreeIndex)
+      closeable.restate(values(i))
+    firstFreeIndex = 0
   }
 
 }
