@@ -7,7 +7,7 @@ import hohserg.peice.of.pool.{Reusable, MainPool}
 import scala.collection.generic.Clearable
 import scala.collection.mutable.ListBuffer
 
-object Example {
+object ScalaExample {
 
   val id = UUID.randomUUID().toString
 
