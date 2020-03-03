@@ -13,4 +13,7 @@ object MainPool {
   def startPool[A: Reusable](id: Id, create: () => A): MicroPool[A] =
     microPools.getOrElseUpdate(id, new MicroPool[A](create)).asInstanceOf[MicroPool[A]]
 
+  def startPool[A <: IReusable](id: Id, create: () => A): MicroPool[A] =
+    microPools.getOrElseUpdate(id, new MicroPool[A](create)).asInstanceOf[MicroPool[A]]
+
 }
