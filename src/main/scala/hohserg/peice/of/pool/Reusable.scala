@@ -1,5 +1,7 @@
 package hohserg.peice.of.pool
 
+import scala.language.implicitConversions
+
 trait Reusable[-A] {
   def restate(v: A): Unit
 }
